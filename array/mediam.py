@@ -85,6 +85,57 @@ def dutch_national_flag(nums:List[int])->List[int]:
 
     return nums
 
+# Brute Force Solution
+def maximum_subarray_sum(nums:List[int])->int:
+    n = len(nums)
+    maxi_sum = float("-inf")
+    for i in range(0,n):
+        curr_sum = 0
+        for j in range(i,n):
+            curr_sum+=nums[j]
+            maxi_sum = max(maxi_sum,curr_sum)
+    return maxi_sum
 
-result = dutch_national_flag(nums=[1,0,2,0,2,1])
+# Optimal Solution using the kadne's algorithem
+def maximum_subarray_sum_optimal(nums:List[int])->int:
+    n = len(nums)
+    maxi = float("-inf")
+    curr_sum = 0
+    for i in range(0,n):
+        curr_sum += nums[i]
+        maxi = max(maxi,curr_sum)
+        if curr_sum < 0:
+            curr_sum = 0
+    return maxi
+
+
+# Brute Force Solution
+def majority_element_n_by_2_brute(nums:List[int])->int:
+    n = len(nums)
+    for i in range(0,n):
+        count = 0
+        for j in range(0,n):
+            if nums[i] == nums[j]:
+                count+=1
+        if count > n//2:
+            return nums[i]
+    
+
+
+
+# Better  Solution
+def majority_element_n_by_2(nums:List[int])->int:
+    freq_map = {}
+    n = len(nums)
+    for i in range(0,n):
+        freq_map[nums[i]] = freq_map.get(nums[i],0) + 1
+ 
+    for key in freq_map:
+        if freq_map[key] > n // 2:
+            return key
+    return -1
+    
+        
+
+result = majority_element_n_by_2_brute(nums=[2,5,6,7,5,5,9,5,5])
 print("==============>",result)
