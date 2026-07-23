@@ -136,6 +136,104 @@ def majority_element_n_by_2(nums:List[int])->int:
     return -1
     
         
+# Optimal Solution Using the moorse voting algo
+def moorse_voting_algo(nums:List[int])->int:
+    n = len(nums)
+    count = 0
+    ele = None  
+    for i in range(0,n):
+        if count == 0:
+            ele = nums[i]
+            count+=1
+        elif nums[i] == ele:
+            count+=1
+        else:
+            count -= 1
+    count = 0
+    for i in range(0,n):
+        if nums[i] == ele:
+            count +=1
+    
+    if count > n//2:
+        return ele
+    else:
+        return -1
 
-result = majority_element_n_by_2_brute(nums=[2,5,6,7,5,5,9,5,5])
+# Brute Force Solution
+def buy_and_sell(nums:List[int])->int:
+    n = len(nums)
+    maxi_profit = float("-inf")
+    for i in range(0,n):
+        for j in range(i+1,n):
+            if nums[j] > nums[i]:
+                profit = nums[j] - nums[i]
+                maxi_profit = max(maxi_profit,profit)
+    return maxi_profit
+
+# Optimal Solution
+def buy_and_sel_optimal(nums:List[int])->int:
+    n = len(nums)
+    min_price = float("inf")
+    maxi_profit = float("-inf")
+    for i in range(0,n):
+        min_price = min(min_price,nums[i])
+        profit = nums[i] - min_price
+        maxi_profit = max(maxi_profit,profit)
+    return maxi_profit
+
+# Brute Force Solution
+def rearrange_list_by_sign_brute_force(nums:List[int])->List[int]:
+    n = len(nums)
+    result = [0] * n
+    pos = []
+    neg = []
+    for i in range(0,n):
+        if nums[i] > 0 :
+            pos.append(nums[i])
+        else:
+            neg.append(nums[i])
+    posindex = 0
+    negindex = 1
+    for i in range(0,len(pos)):
+        result[posindex] = pos[i]
+        posindex+=2
+        result[negindex] = neg[i]
+        negindex+=2
+    return result
+
+ 
+
+# Optimal Solution 
+def rearrange_list_by_sign(nums:List[int])->List[int]:
+    n = len(nums)
+    result = [0] * n
+    pos = 0
+    neg = 1
+    for i in range(0,n):
+        if nums[i] > 0:
+            result[pos] = nums[i]
+            pos += 2
+        else:
+            result[neg] = nums[i]
+            neg+=2
+    return result
+
+
+# Brute Force Leaders in an array
+def leaders_in_an_array(nums:List[int])->List[int]:
+    n = len(nums)
+    result = []
+    for i in range(0,n):
+        is_leader = True
+        for j in range(i+1,n):
+            if nums[j] > nums[i]:
+                is_leader = False
+                break
+
+        if is_leader:
+            result.append(nums[i])
+    return result
+
+
+result = leaders_in_an_array(nums=[16,17,4,3,5,2])
 print("==============>",result)
