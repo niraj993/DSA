@@ -220,7 +220,7 @@ def rearrange_list_by_sign(nums:List[int])->List[int]:
 
 
 # Brute Force Leaders in an array
-def leaders_in_an_array(nums:List[int])->List[int]:
+def leaders_in_an_array_brute(nums:List[int])->List[int]:
     n = len(nums)
     result = []
     for i in range(0,n):
@@ -234,6 +234,55 @@ def leaders_in_an_array(nums:List[int])->List[int]:
             result.append(nums[i])
     return result
 
+# Optimal Solution Leaders in an array
+def leaders_in_an_array_optimal(nums:List[int])->List[int]:
+    n = len(nums)
+    result = []
+    maxi_ele = float("-inf")
+    for i in range(n-1,-1,-1):
+        ele = max(maxi_ele,nums[i])
+        if ele > maxi_ele:
+            result.append(ele)
+            maxi_ele = ele
+    return result[::-1]
 
-result = leaders_in_an_array(nums=[16,17,4,3,5,2])
+# Brute force solution
+def longest_consective_seq(nums:List[int])->int:
+    n = len(nums)
+    max_count = 0
+    for i in range(0,n):
+        ele = nums[i]
+        count = 1
+        n = ele
+        while n + 1 in nums:
+            count+=1
+            n+=1
+        max_count = max(max_count,count)
+    return max_count
+
+
+# Optimal Solution
+def longest_consective_seq_optimal(nums: List[int]) -> int:
+    my_set = set(nums)
+    max_count = 0
+
+    for ele in my_set:
+        # Start only if ele is the first element of a sequence
+        if ele - 1 not in my_set:
+            count = 1
+            current = ele
+
+            while current + 1 in my_set:
+                current += 1
+                count += 1
+
+            max_count = max(max_count, count)
+
+    return max_count    
+
+
+
+
+
+result = longest_consective_seq_optimal(nums=[1,99,101,98,2,5,3,100])
 print("==============>",result)
