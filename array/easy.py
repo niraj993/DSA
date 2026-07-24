@@ -35,6 +35,25 @@ def find_second_largest_ele_better(nums:List[int])->int:
             second_largest = nums[j]
     return second_largest
 
+# Optimal Solution
+def find_second_element_optimal(nums:List[int])->int:
+    largest = float("-inf")
+    sec_largest = float("-inf")
+    n = len(nums)
+    for i in range(0,n):
+        if nums[i] > largest and nums[i] != largest:
+            sec_largest = largest
+            largest = nums[i]
+    return sec_largest
 
-result = find_largest_ele_optimal(nums=[56,3,2,10,65,15])
+
+# Optimal Solution
+def check_array_sorted_or_not(nums:List[int])->bool:
+    n = len(nums)
+    for i in range(0,n-1):
+        if nums[i] > nums[i+1]:
+            return False
+    return True
+
+result = check_array_sorted_or_not(nums=[1,2,3,4,5])
 print("===============>",result)
