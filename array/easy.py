@@ -55,5 +55,56 @@ def check_array_sorted_or_not(nums:List[int])->bool:
             return False
     return True
 
-result = check_array_sorted_or_not(nums=[1,2,3,4,5])
+# Remove Duplicate from the sorted an array in place
+# Brute Force
+def remove_duplicate_from_sorted_an_array_brute(nums:List[int])->int:
+    n = len(nums)
+    result = []
+    for i in range(0,n):
+        if nums[i] not in result:
+            result.append(nums[i])
+    index = 0
+    for j in range(0,len(result)):
+        nums[index] = result[index]
+        index +=1
+   
+    for k in range(len(result),n):
+        nums[k] = 0
+    
+    return nums
+
+# Better Solution
+def remove_duplicate_from_sorted_an_array_better(nums:List[int])->int:
+    n = len(nums)
+    freq_map = {}
+    for i in range(0,n):
+        freq_map[nums[i]] = freq_map.get(nums[i],0) + 1
+
+    index = 0
+    for key in freq_map:
+        nums[index] = key
+        index+=1
+    return nums
+
+# Optimal Solution
+def remove_duplicate_from_sorted_an_array_optimal(nums:List[int])->int:
+    n = len(nums)
+    if n == 1:
+        return 1
+    i = 0
+    j = i + 1
+    while j < n :
+        if nums[i] != nums[j]:
+            i+=1
+            nums[i],nums[j] = nums[j],nums[i]
+      
+        j+=1
+    return i+1
+
+
+    
+
+
+
+result = remove_duplicate_from_sorted_an_array_better(nums=[1,1,1,2,3,4,5,6,2])
 print("===============>",result)
