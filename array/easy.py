@@ -101,10 +101,112 @@ def remove_duplicate_from_sorted_an_array_optimal(nums:List[int])->int:
         j+=1
     return i+1
 
+# Right Rotate a one place
+# Bute Force Solution
+def right_rotate_one_place_brute(nums:List[int])->List[int]:
+    last_ele = nums.pop()
+    nums.insert(0,last_ele)
+    return nums
 
+# Better Solution
+def right_rotate_one_place_better(nums:List[int])->List[int]:
+    nums[:] = [nums[-1]] + nums[:-1]
+    return nums
+
+
+# Using Loop Solution
+def right_rotate_one_place(nums:List)->List[int]:
+    n = len(nums)
+    last_ele = nums[-1]
+    for i in range(n-2,-1,-1):
+        nums[i+1] = nums[i]
+    nums[0] = last_ele
+    return nums 
+
+
+# Right Rotate array by k place
+# Brute Force Solution
+def right_rotate_an_array_k_place_brute(nums:List[int],k:int)->List[int]:
+    n = len(nums)
+    if n == k:
+        return nums
+    rotation = k % n
+    for i in range(rotation):
+        last_ele = nums.pop()
+        nums.insert(0,last_ele)
+    return nums
     
 
+# Better Solution Using the Slicing
+def right_rotate_an_array_k_place_better(nums:List[int],k:int)->List[int]:
+    n = len(nums)
+    rotations = k % n
+    nums[:] = nums[n-rotations:] + nums[:n-rotations]
+    return nums
 
 
-result = remove_duplicate_from_sorted_an_array_better(nums=[1,1,1,2,3,4,5,6,2])
+
+# Brute Force Using Dict
+def move_zero_in_end_brute_force(nums:List[int])->List[int]:
+    n = len(nums)
+    freq_map = {}
+    for i in range(0,n):
+        if nums[i] != 0:
+            freq_map[nums[i]] = 0
+    
+    index = 0
+    for key in freq_map:
+        nums[index] = key
+        index +=1
+    
+    for j in range(index,n):
+        nums[j] = 0
+    return nums
+
+    
+# Better Solution  
+def move_zero_in_end_better_solution(nums:List[int])->List[int]:
+    n = len(nums)
+    zeros = []
+    non_zeros = []
+    for i in range(0,n):
+        if nums[i] == 0:
+            zeros.append(nums[i])
+        else:
+            non_zeros.append(nums[i])
+    nums[:] = non_zeros + zeros
+    return nums
+
+
+# Optimal Solution
+def move_zero_in_end_optimal_solution(nums:List[int])->List[int]:
+    n = len(nums)
+    if n == 1:
+        return 
+    i = 0
+    while i < n:
+        if nums[i] != 0:
+            break
+        i+=1
+    
+    if i == n:
+        return 
+    j = i + 1
+    while j < n:
+        if nums[j] != 0:
+            nums[i],nums[j] = nums[j],nums[i]
+            i+=1
+        j+=1
+    return nums 
+
+
+def linear_search(nums:List[int],target:int)->int:
+    n = len(nums)
+    for i in range(0,n):
+        if nums[i] == target:
+            return i
+    return -1
+
+
+result = linear_search(nums=[1,0,2,3,0,6,7,0,8,0],target=8)
 print("===============>",result)
