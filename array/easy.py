@@ -207,6 +207,79 @@ def linear_search(nums:List[int],target:int)->int:
             return i
     return -1
 
+def merge_two_sorted_an_array(nums1:List[int],nums2:List[int])->List[int]:
+    n = len(nums1)
+    m = len(nums2)
+    i = 0
+    j = 0
+    result = []
+    while i < n and j < m:
+        if nums1[i] <= nums2[j]:
+            if len(result) == 0 or result[-1] != nums1[i]:
+                result.append(nums1[i])
+            i+=1
+        else:
+            if len(result) == 0 or result[-1] != nums2[j]:
+                result.append(nums2[j])
+            j+=1
 
-result = linear_search(nums=[1,0,2,3,0,6,7,0,8,0],target=8)
+    while i < n:
+        if len(result) == 0 or result[-1] != nums2[i]:
+            result.append(nums1[i])
+        i+=1
+
+    while j < m:
+        if len(result) == 0 or result[-1] != nums2[j]:
+            result.append(nums2[j])
+        j+=1
+
+    return result
+    
+  
+# Brute Forec Solution 
+def find_missing_num_in_an_array(nums:List[int])->int:
+    n = len(nums)
+    for i in range(1,n+1):
+        if i not in nums:
+            return i 
+    return -1
+
+# Bettel Solution
+def find_missing_num_in_an_array_better(nums:List[int])->int:
+    n = len(nums)
+    freq_map = {}
+    for i in range(1,n+1):
+        freq_map[i] = 0
+    
+    for n in nums:
+        if n in freq_map:
+            freq_map[n] = 1
+
+    for key in freq_map:
+        if freq_map[key] == 0:
+            return key
+
+# Optimal solution
+def find_missing_num_in_an_array_optimal(nums:List[int])->int:
+    n = len(nums)
+    return int((n * (n+1) // 2) - sum(nums))
+
+
+# optimal solution
+def max_consective_ones(nums:List[int])->int:
+    n = len(nums)
+    count = 0
+    max_count = float("-inf")
+    for i in range(0,n):
+        if nums[i] == 1:
+            count+=1
+           
+        else:
+            max_count = max(count,max_count)
+            count = 0
+    return max_count
+
+
+
+result = max_consective_ones(nums=[1,1,0,0,1,1,1,0,0,0,1,1,1,1,1,0,0])
 print("===============>",result)
