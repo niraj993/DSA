@@ -277,7 +277,7 @@ def max_consective_ones(nums:List[int])->int:
         else:
             max_count = max(count,max_count)
             count = 0
-    return max_count
+    return max(count,max_count)
 
 
 
