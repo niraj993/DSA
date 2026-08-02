@@ -48,8 +48,29 @@ def reverse_number(n:int)->int:
 
 
 
+def reverse_an_array(nums:List[int],left:int,right:int)->List[int]:
+    if left >= right:
+        return
+    nums[left],nums[right] = nums[right],nums[left]
+    reverse_an_array(nums,left+1,right-1)
+    return nums
 
-result = reverse_number(123)
-print(result)
+def check_a_string_is_palindrome_or_not(string:str,left:int,right:int)->bool:
+    if left >= right:
+        return True 
+    
+    if string[left] != string[right]:
+        return False
+        
+    return check_a_string_is_palindrome_or_not(string,left+1,right-1)
+     
+
+
+
+
+string = "qwerty"
+n = len(string)
+result = check_a_string_is_palindrome_or_not(string=string,left=0,right=n-1)
+print("===================>",result)
 
  
