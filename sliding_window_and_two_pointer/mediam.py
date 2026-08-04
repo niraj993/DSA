@@ -190,5 +190,60 @@ class Solution:
         return self.countSubArrayLessThanOrEqualToGoal(
             nums, k
         ) - self.countSubArrayLessThanOrEqualToGoal(nums, k - 1)
-result = binary_sub_array_with_sum(nums=[])
+
+
+# brute force
+def kdistancechar(k:int,string:str)->int:
+    n = len(string)
+    maxi = 0
+    for i in range(0,n):
+        my_set = set()
+        for j in range(i,n):
+            my_set.add(string[j])
+            if len(my_set) > k:
+                break
+            maxi = max(maxi,j-i+1)
+    return maxi
+
+# Better Solution
+def kdistancechar_better(k:int,string:str)->int:
+    n = len(string)
+    right = 0
+    left = 0
+    maxi = 0
+    my_dict = dict()
+    while right < n:
+        my_dict[string[right]] = my_dict.get(string[right],0) + 1
+        while len(my_dict) > k:
+            my_dict[string[left]] -=1
+            if my_dict[string[left]] == 0:
+                del my_dict[string[left]]
+            left+=1
+        maxi = max(maxi,right-left +1)
+        right+=1
+    return right
+
+
+# Optimal Solution
+def kdistancechar_optimal(k:int,string:str)->int:
+    n = len(string)
+    right = 0
+    left = 0
+    maxi = 0
+    my_dict = dict()
+    while right < n:
+        my_dict[string[right]] = my_dict.get(string[right],0) + 1
+        if len(my_dict) > k:
+            my_dict[string[left]] -=1
+            if my_dict[string[left]] == 0:
+                del my_dict[string[left]]
+            left+=1
+        if len(my_dict) <= 2:
+            maxi = max(maxi,right-left +1)
+        right+=1
+    return right
+
+
+
+result = kdistancechar_better(k=2,string="aaabbccd")
 print("============>",result)

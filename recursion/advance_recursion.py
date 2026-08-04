@@ -1,23 +1,75 @@
 from typing import List
 
-class Solution:
-    def solve(self, index: int, subset: List[int], nums: List[int], result: List[List[int]]):
-        # Base case: We've processed all elements, add current subset to result
-        if index >= len(nums):
-            result.append(subset.copy())  # Use copy to avoid modifying later
-            return
-        
-        # Choice 1: Include the current element in the subset
-        subset.append(nums[index])    # Add to current subset
-        self.solve(index + 1, subset, nums, result)  # Recurse to next index
-        
-        # Backtrack: Undo the inclusion to try the exclude choice
-        subset.pop()                  # Remove the last added element
-        
-        # Choice 2: Exclude the current element
-        self.solve(index + 1, subset, nums, result)  # Recurse without adding
+def generate_subsequence(index: int, nums: List[int], subset: List[int], result: List[List[int]]) -> None:
+    if index >= len(nums):
+        result.append(subset.copy())
+        return
 
-    def subsets(self, nums: List[int]) -> List[List[int]]:
-        result = []                   # List to store all subsets
-        self.solve(0, [], nums, result)  # Start from index 0 with empty subset
-        return result
+    # Include current element
+    subset.append(nums[index])
+    generate_subsequence(index + 1, nums, subset, result)
+
+    # Exclude current element
+    subset.pop()
+    generate_subsequence(index + 1, nums, subset, result)
+
+ 
+# Brute Force
+def generate_subsequence_with_target(index: int, nums: List[int], subset: List[int],
+                                     result: List[List[int]], target: int) -> None:
+    if index >= len(nums):
+        if sum(subset) == target:
+            result.append(subset.copy())
+        return
+
+    # Include current element
+    subset.append(nums[index])
+    generate_subsequence_with_target(index + 1, nums, subset, result, target)
+
+    # Exclude current element
+    subset.pop()
+    generate_subsequence_with_target(index + 1, nums, subset, result, target)
+
+
+# Optimal Solution
+def generate_subsequence_with_target_optimal(
+    index: int,
+    nums: List[int],
+    subset: List[int],
+    result: List[List[int]],
+    target: int,
+    total: int
+) -> None:
+
+    if total == target:
+        result.append(subset.copy())
+        return
+
+    if total > target or index >= len(nums):
+        return
+
+    # Include current element
+    subset.append(nums[index])
+    generate_subsequence_with_target_optimal(
+        index + 1, nums, subset, result, target, total + nums[index]
+    )
+
+    # Exclude current element
+    subset.pop()
+    generate_subsequence_with_target_optimal(
+        index + 1, nums, subset, result, target, total
+    )
+
+
+nums = [1, 2, 3]
+target = 3
+result = []
+
+generate_subsequence_with_target_optimal(0, nums, [], result, target, 0)
+
+print(result)
+
+                            
+ 
+
+ 
