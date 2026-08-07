@@ -278,7 +278,7 @@ def longest_consective_seq_optimal(nums: List[int]) -> int:
 
             max_count = max(max_count, count)
 
-    return max_count    
+    return max_count        
 
 
 
