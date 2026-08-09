@@ -157,8 +157,89 @@ def find_missing_and_dupli_optimal(nums:List[int])->Tuple:
     pass
 
  
+# Brute Force problem
+def four_sum_problem(nums:List[int],target:int)->List[int]:
+    n = len(nums)
+    if n < 4:
+        return []
+    
+    result = set()
+    for i in range(0,n):
+        for j in range(i+1,n):
+            for k in range(j+1,n):
+                for d in range(k+1,n):
+                    if nums[i] + nums[j] + nums[k] + nums[d] == target:
+                        temp = [nums[i],nums[j],nums[k],nums[d]]
+                        temp.sort()
+                        result.add(tuple(temp))
+    return [list(ans) for ans in result]
 
 
-result = find_missing_and_dupli_better(nums=[1, 2, 2, 4])
+# Better Solution
+def four_sum_problem_better(nums:List[int],target:int)->List[int]:
+    n = len(nums)
+    if n < 4:
+        return []
+
+    result = []
+    for i in range(0,n):
+        for j in range(i+1,n):
+            my_set = set()
+            for k in range(j+1,n):
+                forth = target- (nums[i] + nums[j] + nums[k])
+                if forth in my_set:
+                    temp = [nums[i],nums[j],nums[k],forth]
+                    temp.sort()
+                    result.append(tuple(temp))
+                my_set.add(nums[k])
+    return [list(ans) for ans in result]
+
+
+
+# Optimal Solution
+def four_sum_problem_optimal(nums:List[int],target:int)->List[int]:
+    n = len(nums)
+    ans = []
+    nums.sort()  # Step 1: sort to simplify duplicates
+
+    # 🚶‍♂️ Step 2: pick first two numbers
+    for i in range(0, n):
+        if i > 0 and nums[i] == nums[i - 1]:  # skip duplicates for i
+            continue
+
+        for j in range(i + 1, n):
+            if j > i + 1 and nums[j] == nums[j - 1]:  # skip duplicates for j
+                continue
+
+            # Step 3: two-pointer search for remaining two
+            k = j + 1               # left pointer
+            l = n - 1               # right pointer
+
+            while k < l:
+                total = nums[i] + nums[j] + nums[k] + nums[l]
+
+                if total == target:
+                    ans.append([nums[i], nums[j], nums[k], nums[l]])
+                    k += 1
+                    l -= 1
+
+                    # skip duplicate values for k
+                    while k < l and nums[k] == nums[k - 1]:
+                        k += 1
+                    # skip duplicate values for l
+                    while l > k and nums[l] == nums[l + 1]:
+                        l -= 1
+
+                elif total < target:
+                    k += 1           # need a larger sum
+
+                else:
+                    l -= 1           # need a smaller sum
+
+    return ans
+
+
+
+result = four_sum_problem_optimal(nums=[1,0,-1,0,-2,2],target=0)
 print("====================>result",result)
 
