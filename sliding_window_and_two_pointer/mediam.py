@@ -190,12 +190,144 @@ def maximum_point_obtain_optimal(nums: List[int], k: int) -> int:
 
     return maxi
 
-
+# Brute Force
 def binary_sub_array_with_sum(nums: List[int], target: int) -> int:
     n = len(nums)
-    for 
+    count = 0
+    for i in range(0,n):
+        sum_ = 0
+        for j in range(i,n):
+            sum_ += nums[j]
+            if sum_ == target:
+                count+=1
+                break
 
-result = maximum_point_obtain_optimal([1, 2, 3, 4, 5, 6, 1], 3)
+    return count
+
+# Optimal Solution
+def at_most(nums: List[int], goal: int) -> int:
+    if goal < 0:
+        return 0
+
+    curr_sum = 0
+    count = 0
+    right = 0
+    left = 0
+    n = len(nums)
+
+    while right < n:
+        curr_sum += nums[right]
+
+        while curr_sum > goal:
+            curr_sum -= nums[left]
+            left += 1
+
+        count += right - left + 1
+        right+=1
+    return count
+
+
+
+def binary_sub_array_with_sum_opt(nums: List[int], target: int) -> int:
+    return at_most(nums, target) - at_most(nums, target - 1)
+
+
+# Brute Force
+def longest_substring_with_atmost_k(string:str,k:int)->int:
+    n = len(string)
+    maxi = 0
+    for i in range(0,n):
+        my_set = set()
+        for j in range(i,n):
+            my_set.add(string[j])
+            if len(my_set) > k:
+                break
+            maxi = max(maxi,j-i+1)
+    return maxi
+
+
+# Better Solution
+def longest_substring_with_atmost_k_better(string:str,k:int)->int:
+    n = len(string)
+    left = 0
+    right = 0
+    freq_map = {}
+    maxi = 0
+    while right < n:
+        freq_map[string[right]] = freq_map.get(string[right],0) + 1
+        while len(freq_map) > k:
+            freq_map[string[left]]-=1
+            if freq_map[string[left]] == 0:
+                del freq_map[string[left]]
+            left+=1
+
+        maxi = max(maxi,right-left+1)
+        right+=1
+    return maxi
+
+
+# Optimal Solution 
+def longest_substring_with_atmost_k_optimal(string:str,k:int)->int:
+    n = len(string)
+    left = 0
+    right = 0
+    freq_map = {}
+    maxi = 0
+    while right < n:
+        freq_map[string[right]] = freq_map.get(string[right],0) + 1
+        if len(freq_map) > k:
+            freq_map[string[left]]-=1
+            if freq_map[string[left]] == 0:
+                del freq_map[string[left]]
+            left+=1
+        if len(freq_map) <= 2:
+            maxi = max(maxi,right-left+1)
+        right+=1
+    return maxi
+
+ 
+
+# Brute Force
+def sub_array_with_k_diff_integer(nums:List[int],k:int)->int:
+    n = len(nums)
+    total = 0
+    for i in range(0,n):
+        my_set = set()
+        for j in range(i,n):
+            my_set.add(nums[j])
+            if len(my_set) > 3:
+                break
+            total = max(total,j-i+1)
+    return total
+
+
+# Brute Force Solution
+def num_of_substring_containing_all_three_char(string:str)->int:
+    n = len(string)
+    count = 0
+    for i in range(0,n):
+        my_set = set()
+        for j in range(i,n):
+            my_set.add(string[j])
+            if len(my_set) == 3:
+                count+=1
+    return count
+
+# Optimal Solution
+def num_of_substring_containing_all_three_char_optimal(s:str)->int:
+        count = 0
+        n = len(s)
+        i = 0
+        numbers = {"a": -1, "b": -1, "c": -1}
+        while i < n:
+            numbers[s[i]] = i
+            if numbers["a"] >= 0 and numbers["b"] >= 0 and numbers["c"] >= 0:
+                count += min(numbers.values()) + 1
+            i += 1
+        return count
+
+
+result = num_of_substring_containing_all_three_char_optimal(s="bbacba")
 print("===========>", result)
 
     
