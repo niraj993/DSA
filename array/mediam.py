@@ -174,7 +174,7 @@ def buy_and_sell(nums:List[int])->int:
 def buy_and_sel_optimal(nums:List[int])->int:
     n = len(nums)
     min_price = float("inf")
-    maxi_profit = float("-inf")
+    maxi_profit = 0
     for i in range(0,n):
         min_price = min(min_price,nums[i])
         profit = nums[i] - min_price
