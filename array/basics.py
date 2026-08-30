@@ -1,3 +1,5 @@
+from typing import List
+
 def find_length_of_an_list(nums:List[int])->int:
     count = 0
     for _ in nums:

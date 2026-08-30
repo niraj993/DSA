@@ -54,6 +54,7 @@ def sort_colour_better_2(nums:List[int])->List[int]:
         elif nums[i] == 1:
             ones +=1
         else:
+            
             twos+=1
     for i in range(0,zeros):
         nums[i] = 0
@@ -245,6 +246,7 @@ def leaders_in_an_array_optimal(nums:List[int])->List[int]:
             result.append(ele)
             maxi_ele = ele
     return result[::-1]
+
 
 # Brute force solution
 def longest_consective_seq(nums:List[int])->int:

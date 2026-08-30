@@ -6,7 +6,7 @@ def find_largest_ele(nums:List[int])->int:
     return nums[-1]
 
 # Optimal Solution
-def find_largest_ele_optimal(nums:List[int])->int:
+def find_largest_ele_optimal(nums:List[int])->float:
     n = len(nums)
     largest_ele = float("-inf")
     for i in range(0,n):
@@ -22,7 +22,7 @@ def find_second_largest_ele_brute(nums:List[int])->int:
 
 
 # Better Solution
-def find_second_largest_ele_better(nums:List[int])->int:
+def find_second_largest_ele_better(nums:List[int])->float:
     n = len(nums)
     largest_ele = float("-inf")
     second_largest = float("-inf")
@@ -266,14 +266,13 @@ def find_missing_num_in_an_array_optimal(nums:List[int])->int:
 
 
 # optimal solution
-def max_consective_ones(nums:List[int])->int:
+def max_consective_ones(nums:List[int])->float:
     n = len(nums)
     count = 0
     max_count = float("-inf")
     for i in range(0,n):
         if nums[i] == 1:
             count+=1
-           
         else:
             max_count = max(count,max_count)
             count = 0
